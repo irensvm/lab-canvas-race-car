@@ -6,34 +6,46 @@ const road = {
   img: new Image(),
   x: 0,
   y: 0,
-  width: canvas.width,
-  height: canvas.height,
-  speed: 5,
+  width: 0,
+  height: 0,
   obstacles: [],
   score: 0,
+
+  inicializar: function () {
+    this.img = new Image();
+    this.img.src = "/images/road.png";
+    this.width = canvas.width;
+    this.height = canvas.height;
+  },
+
   mostrar: function () {
-    this.img.src = "images/road.png";
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    ctx.drawImage(this.img, this.x, this.y - canvas.height, this.width, this.height);
+  },
 
-  }
-
+  
 
 }
 
 const car = {
   img: new Image(),
-  x: 0,
-  y: 0,
+  x: 300,
+  y: 500,
   width: 0,
   height: 0,
   speed: 15,
-  mostrar: function () {
+
+  inicializar: function () {
+    this.img = new Image();
     this.img.src = "/images/car.png";
-    this.width = 75;
-    this.height = (this.img.height / this.img.width) * this.width;
+    this.width = 50;
+    this.height = 50;
+  },
+
+  mostrar: function () {
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
 
-  }
+  },
 
 }
 
@@ -41,7 +53,7 @@ const obstacles = {
   obstacles: [],
   mostrar: function(){
 
-    
+
   }
 
 
@@ -68,6 +80,8 @@ window.onload = () => {
 function updateCanvas() {
   road.mostrar();
   car.mostrar();
+  obstacles.mostrar();
+  
   requestAnimationFrame(updateCanvas);
 }
 
