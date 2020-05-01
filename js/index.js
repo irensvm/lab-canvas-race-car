@@ -16,12 +16,17 @@ const road = {
     this.img.src = "/images/road.png";
     this.width = canvas.width;
     this.height = canvas.height;
+    this.img.onload = this.mostrar();
   },
 
   mostrar: function () {
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-    ctx.drawImage(this.img, this.x, this.y - canvas.height, this.width, this.height);
   },
+
+  //createObstacles: function(){
+    
+  //}
+
 
   
 
@@ -51,33 +56,27 @@ const car = {
 
 const obstacles = {
   obstacles: [],
+  x: 0,
+  height: 25,
+  speed: 10,
+  y: 0,
+  width: Math.floor(Math.random() * 150) + 50,
+
   mostrar: function(){
+    ctx.fillRect(this.x, this.y, this.width, this.height);
 
 
   }
+
+  
 
 
 }
 
 
-window.onload = () => {
-  document.getElementById('start-button').onclick = () => {
-    startGame();
-    document.onkeydown = driveCar;
-
-    function startGame() {
-      requestAnimationFrame(updateCanvas);
-    }
-  };
-
-
-
-
-
-
-};
 
 function updateCanvas() {
+  //ctx.clearRect(0,0,canvas.width,canvas.height);
   road.mostrar();
   car.mostrar();
   obstacles.mostrar();
@@ -85,8 +84,33 @@ function updateCanvas() {
   requestAnimationFrame(updateCanvas);
 }
 
-// document.onkeydown = teclado
+function startGame() {
+  setInterval(function () { road.createObstacle() }, 2000);
+  updateCanvas();
+}
+
+window.onload = () => {
+  document.getElementById('start-button').onclick = () => {
+    startGame();
+    document.onkeydown = driveCar;
+
+  };
+
+};
 function driveCar(event) {
-  event.key === "ArrowLeft";
-  event.key === "ArrowRight";
+  document.addEventListener("keydown", event => {
+    switch (event.key) {
+      case "ArrowRight":
+        if (car.x < 450) {
+          car.x += 40;
+          break;
+        }
+
+      case "ArrowLeft":
+        if (car.x > 30) {
+          car.x -= 40;
+          break;
+        }
+    }
+  })
 }
